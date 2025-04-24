@@ -203,7 +203,7 @@ Here are some ideas for future enhancements:
 ### **Author**
 
 - **Name:** Gabriell Maia do Amaral Duarte
-- **GitHub:** [Your GitHub Profile](https://github.com/maia2a)
+- **GitHub:** [GitHub Profile](https://github.com/maia2a)
 - **Email:** gabrielldeveloper@gmail.com
 
 ---
