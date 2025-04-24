@@ -11,7 +11,6 @@ public class TaskManager {
   private static final String DATE_FORMAT = "yyyy-MM-dd";
 
   public static void main(String[] args) {
-
     Scanner scanner = new Scanner(System.in);
     System.out.println("Welcome to the Task Manager!");
 
@@ -19,20 +18,25 @@ public class TaskManager {
 
     while (true) {
       System.out.print("> ");
-      String command = scanner.nextLine().trim();
+      String input = scanner.nextLine().trim(); // Trim leading/trailing spaces
 
-      if (command.equalsIgnoreCase("exit")) {
-        System.out.println("Exiting Task Manager. Goodbye!");
-        FileManager.saveTasks(tasks); // Save tasks to file before exiting
+      // Split the input into parts
+      String[] parts = input.split("\\s+", 2); // Split into command and arguments
+      String command = parts[0].toLowerCase(); // Extract the command (case-insensitive)
+      String arguments = parts.length > 1 ? parts[1] : ""; // Extract the arguments
+
+      if (command.equals("exit")) {
+        System.out.println("Exiting Task Manager...");
+        FileManager.saveTasks(tasks);
         break;
-      } else if (command.equalsIgnoreCase("add")) {
-        addTask(command);
-      } else if (command.equalsIgnoreCase("list")) {
+      } else if (command.equals("add")) {
+        addTask(arguments); // Pass arguments to addTask
+      } else if (command.equals("list")) {
         listTasks();
-      } else if (command.equalsIgnoreCase("complete")) {
-        completeTask(command);
-      } else if (command.equalsIgnoreCase("delete")) {
-        deleteTask(command);
+      } else if (command.equals("complete")) {
+        completeTask(arguments); // Pass arguments to completeTask
+      } else if (command.equals("delete")) {
+        deleteTask(arguments); // Pass arguments to deleteTask
       } else {
         System.out.println("Unknown command. Please use 'add', 'list', 'complete', 'delete', or 'exit'.");
       }
@@ -40,28 +44,29 @@ public class TaskManager {
     scanner.close();
   }
 
-  private static void addTask(String command) {
+  private static void addTask(String taskArgs) {
     try {
-      String[] parts = command.split("\"");
+      String[] parts = taskArgs.split("\"");
       if (parts.length < 5) {
-        System.out.println("Invalid command. Usage: add \"title\" \"description\" \"yyyy-MM-dd\"");
+        System.out.println("Invalid format. Use: add \"title\" \"description\" yyyy-MM-dd");
         return;
       }
+
       String title = parts[1].trim();
       String description = parts[3].trim();
-      String dateString = parts[4].trim().split("\\s+")[0]; // Extract date string
+      String dateString = parts[4].trim().split("\\s+")[0].trim();
 
       SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-      sdf.setLenient(false); // Strict date parsing
+      sdf.setLenient(false);
       Date dueDate = sdf.parse(dateString);
 
       Task task = new Task(nextId++, title, description, dueDate);
       tasks.add(task);
-      System.out.println("Task added: " + task);
+      System.out.println("Task added successfully!");
     } catch (ParseException e) {
-      System.out.println("Invalid date format. Please use " + DATE_FORMAT + ".");
+      System.out.println("Invalid date format. Use yyyy-MM-dd (e.g., 2024-01-15).");
     } catch (Exception e) {
-      System.out.println("Error adding task: " + e.getMessage());
+      System.out.println("Error adding task. Please check your input.");
     }
   }
 
