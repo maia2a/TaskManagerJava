@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
@@ -10,8 +11,11 @@ public class TaskManager {
   private static final String DATE_FORMAT = "yyyy-MM-dd";
 
   public static void main(String[] args) {
+
     Scanner scanner = new Scanner(System.in);
     System.out.println("Welcome to the Task Manager!");
+
+    tasks = FileManager.loadTasks(); // Load tasks from file
 
     while (true) {
       System.out.print("> ");
@@ -19,6 +23,7 @@ public class TaskManager {
 
       if (command.equalsIgnoreCase("exit")) {
         System.out.println("Exiting Task Manager. Goodbye!");
+        FileManager.saveTasks(tasks); // Save tasks to file before exiting
         break;
       } else if (command.equalsIgnoreCase("add")) {
         addTask(command);
@@ -129,3 +134,18 @@ public class TaskManager {
     }
   }
 }
+
+// This code is a simple task manager that allows users to add, list, complete,
+// and delete tasks.
+// It uses a command-line interface and stores tasks in an ArrayList.
+// The tasks are serialized to a file for persistence.
+// The Task class represents a task with an ID, title, description, due date,
+// and completion status.
+// The FileManager class handles saving and loading tasks from a file.
+// The TaskManager class contains the main logic for managing tasks, including
+// user input and command processing.
+// The code includes error handling for invalid commands and date formats.
+// The TaskManager class also includes a method to format the due date for
+// display.
+// The code is designed to be user-friendly and provides feedback for each
+// action taken.
